@@ -1,0 +1,15 @@
+<h1>Student List</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    {% for student in students %}
+        <tr>
+            <td>{{ student.first_name }} {{ student.last_name }}</td>
+            <td>{{ student.email }}</td>
+            <td><a href="{% url 'enroll_student' student.id %}">Enroll in Class</a></td>
+        </tr>
+    {% endfor %}
+</table>

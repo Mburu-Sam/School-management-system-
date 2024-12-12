@@ -1,0 +1,21 @@
+<!-- school/templates/school/home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+</head>
+<body>
+    <h1>Welcome to the School Management System</h1>
+    <ul>
+        <li><a href="{% url 'student_register' %}">Register Student</a></li>
+        <li><a href="{% url 'teacher_register' %}">Register Teacher</a></li>
+        <li><a href="{% url 'class_create' %}">Create Class</a></li>
+        <li><a href="{% url 'student_list' %}">View Students</a></li>
+        <li><a href="{% url 'teacher_list' %}">View Teachers</a></li>
+        <li><a href="{% url 'class_list' %}">View Classes</a></li>
+    </ul>
+</body>
+</html>
