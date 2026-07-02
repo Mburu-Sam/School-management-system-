@@ -1,21 +1,70 @@
-<!-- school/templates/school/home.html -->
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Management System</title>
-</head>
-<body>
-    <h1>Welcome to the School Management System</h1>
-    <ul>
-        <li><a href="{% url 'student_register' %}">Register Student</a></li>
-        <li><a href="{% url 'teacher_register' %}">Register Teacher</a></li>
-        <li><a href="{% url 'class_create' %}">Create Class</a></li>
-        <li><a href="{% url 'student_list' %}">View Students</a></li>
-        <li><a href="{% url 'teacher_list' %}">View Teachers</a></li>
-        <li><a href="{% url 'class_list' %}">View Classes</a></li>
-    </ul>
-</body>
-</html>
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <div>
+        <div class="page-title">School Dashboard</div>
+        <div class="page-subtitle">Monitor school operations at a glance</div>
+    </div>
+    <div class="header-actions">
+        <div class="header-chip"><strong>Today</strong> 01 Jul 2026</div>
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        <a href="{% url 'signup_choice' %}" class="btn btn-secondary">Sign Up</a>
+        <a href="{% url 'admission_apply' %}" class="btn btn-secondary">Apply for Admission</a>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Students</div>
+            <div class="stat-value">{{ total_students }}</div>
+        </div>
+        <div class="stat-icon icon-blue"><i class="fa-solid fa-user-graduate"></i></div>
+    </div>
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Teachers</div>
+            <div class="stat-value">{{ total_teachers }}</div>
+        </div>
+        <div class="stat-icon icon-green"><i class="fa-solid fa-chalkboard-user"></i></div>
+    </div>
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Classes</div>
+            <div class="stat-value">{{ total_classes }}</div>
+        </div>
+        <div class="stat-icon icon-yellow"><i class="fa-solid fa-school"></i></div>
+    </div>
+    <div class="stat-card">
+        <div>
+            <div class="stat-label">Attendance</div>
+            <div class="stat-value">92%</div>
+        </div>
+        <div class="stat-icon icon-purple"><i class="fa-solid fa-clipboard-check"></i></div>
+    </div>
+</div>
+
+<div class="quick-grid">
+    <div class="quick-card">
+        <h3>Quick Access</h3>
+        <ul class="quick-list">
+            <li><span>Register Student</span><a href="{% url 'student_register' %}" class="btn btn-secondary">Open</a></li>
+            <li><span>Teacher Registration</span><a href="{% url 'teacher_register' %}" class="btn btn-secondary">Open</a></li>
+            <li><span>Create Class</span><a href="{% url 'class_create' %}" class="btn btn-secondary">Open</a></li>
+        </ul>
+    </div>
+    <div class="quick-card">
+        <h3>Latest Entries</h3>
+        <ul class="quick-list">
+            {% for student in recent_students %}
+            <li><span>{{ student.first_name }} {{ student.last_name }}</span><span class="badge badge-success">Active</span></li>
+            {% empty %}
+            <li><span>No students enrolled yet</span><span class="badge badge-warning">Pending</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

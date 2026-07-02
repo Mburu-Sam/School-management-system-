@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance Records{% endblock %}
+
+{% block content %}
+<div class="panel table-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px;">
+        <h2>Attendance Records</h2>
+        <a href="{% url 'attendance_create' %}" class="btn btn-primary">Mark Attendance</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in attendance %}
+                <tr>
+                    <td>{{ item.student }}</td>
+                    <td>{{ item.class_obj }}</td>
+                    <td>{{ item.date }}</td>
+                    <td><span class="badge {% if item.present %}badge-success{% else %}badge-warning{% endif %}">{% if item.present %}Present{% else %}Absent{% endif %}</span></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4">No attendance records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

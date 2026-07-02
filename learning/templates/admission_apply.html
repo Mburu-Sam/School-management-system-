@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Admission Inquiry{% endblock %}
+
+{% block content %}
+<div class="panel form-card">
+    <h2>Apply for Admission</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+            {% for field in form %}
+            <div class="form-row {% if field.name == 'message' %}full{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <small style="color:#ef476f;">{{ field.errors|striptags }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div style="margin-top: 16px;">
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Account Type{% endblock %}
+
+{% block content %}
+<div class="panel form-card" style="max-width:480px; margin:40px auto; text-align:center;">
+    <h2>Create an Account</h2>
+    <p style="margin-bottom:24px;">Choose the type of account you want to create.</p>
+
+    <div style="display:flex; flex-direction:column; gap:14px;">
+        <a href="{% url 'student_signup' %}" class="btn btn-primary" style="width:100%;">Student Sign Up</a>
+        <a href="{% url 'teacher_signup' %}" class="btn btn-secondary" style="width:100%;">Teacher Sign Up</a>
+    </div>
+</div>
+{% endblock %}

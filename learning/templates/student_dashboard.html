@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="panel table-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px;">
+        <h2>{{ student.first_name }} {{ student.last_name }}</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="{% url 'student_profile_update' %}" class="btn btn-primary">Update Profile</a>
+            <a href="{% url 'download_transcript' %}" class="btn btn-secondary">Download Transcript</a>
+            <a href="{% url 'download_attendance_report' %}" class="btn btn-secondary">Attendance Report</a>
+            <a href="{% url 'download_fee_statement_report' %}" class="btn btn-secondary">Fee Statement</a>
+        </div>
+    </div>
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <p><strong>Classes:</strong> {% for class in student.classes.all %}{{ class.name }}{% if not forloop.last %}, {% endif %}{% empty %}No classes assigned{% endfor %}</p>
+
+    <h3>Classes</h3>
+    <ul>
+        {% for class in classes %}
+        <li>{{ class.name }}{% if class.subject %} - {{ class.subject }}{% endif %}</li>
+        {% empty %}
+        <li>No classes assigned.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Subjects</h3>
+    <ul>
+        {% for subject in subjects %}
+        <li>{{ subject.name }}{% if subject.teacher %} - {{ subject.teacher }}{% endif %}</li>
+        {% empty %}
+        <li>No subjects assigned.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Attendance</h3>
+    <ul>
+        {% for item in attendance %}
+        <li>{{ item.date }} - {% if item.present %}Present{% else %}Absent{% endif %} ({{ item.class_obj }})</li>
+        {% empty %}
+        <li>No attendance records.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Grades</h3>
+    <ul>
+        {% for grade in grades %}
+        <li>{{ grade.class_obj }}: {{ grade.grade }}</li>
+        {% empty %}
+        <li>No grades available.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Assignments</h3>
+    <ul>
+        {% for assignment in assignments %}
+        <li>{{ assignment.title }} ({{ assignment.class_obj }}) - Due: {{ assignment.due_date }}
+            {% if assignment.file %}<a href="{{ assignment.file.url }}" class="btn btn-secondary" style="margin-left:8px;">Download</a>{% endif %}
+            <a href="{% url 'assignment_submit' assignment.id %}" class="btn btn-secondary" style="margin-left:8px;">Submit</a>
+        </li>
+        {% empty %}
+        <li>No assignments available.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Fee Statement</h3>
+    <ul>
+        {% for statement in fee_statements %}
+        <li>{{ statement.month }} - Due: {{ statement.amount_due }} Paid: {{ statement.amount_paid }} Balance: {{ statement.balance }} (Required to pay: {{ statement.balance }})</li>
+        {% empty %}
+        <li>No fee record found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

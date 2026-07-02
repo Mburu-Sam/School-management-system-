@@ -1,5 +1,27 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register Student</button>
-</form>
+{% extends 'base.html' %}
+
+{% block title %}Student Registration{% endblock %}
+
+{% block content %}
+<div class="panel form-card">
+    <h2>Student Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+            {% for field in form %}
+            <div class="form-row">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <small style="color:#ef476f;">{{ field.errors|striptags }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div style="margin-top: 16px; display:flex; gap:12px;">
+            <button type="submit" class="btn btn-primary">Register Student</button>
+            <a href="{% url 'student_list' %}" class="btn btn-secondary">View Students</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

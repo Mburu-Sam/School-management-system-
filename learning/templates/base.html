@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}School Management System{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'learning/css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">S</div>
+                <div class="brand-text">
+                    <span>School</span>
+                    <strong>Management</strong>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{% url 'homepage' %}" class="nav-link {% if request.resolver_match.url_name == 'homepage' %}active{% endif %}">
+                    <i class="fa-solid fa-gauge-high"></i> Dashboard
+                </a>
+                <a href="{% url 'admission_apply' %}" class="nav-link {% if request.resolver_match.url_name == 'admission_apply' %}active{% endif %}">
+                    <i class="fa-solid fa-user-plus"></i> Admission
+                </a>
+                {% if user.is_staff %}
+                <a href="{% url 'student_list' %}" class="nav-link {% if request.resolver_match.url_name == 'student_list' %}active{% endif %}">
+                    <i class="fa-solid fa-user-graduate"></i> Students
+                </a>
+                <a href="{% url 'teacher_list' %}" class="nav-link {% if request.resolver_match.url_name == 'teacher_list' %}active{% endif %}">
+                    <i class="fa-solid fa-chalkboard-user"></i> Teachers
+                </a>
+                <a href="{% url 'subject_list' %}" class="nav-link {% if request.resolver_match.url_name == 'subject_list' %}active{% endif %}">
+                    <i class="fa-solid fa-book"></i> Subjects
+                </a>
+                <a href="{% url 'class_list' %}" class="nav-link {% if request.resolver_match.url_name == 'class_list' %}active{% endif %}">
+                    <i class="fa-solid fa-school"></i> Classes
+                </a>
+                <a href="{% url 'attendance_list' %}" class="nav-link {% if request.resolver_match.url_name == 'attendance_list' %}active{% endif %}">
+                    <i class="fa-solid fa-clipboard-check"></i> Attendance
+                </a>
+                <a href="{% url 'grade_list' %}" class="nav-link {% if request.resolver_match.url_name == 'grade_list' %}active{% endif %}">
+                    <i class="fa-solid fa-star"></i> Grades
+                </a>
+                <a href="{% url 'fee_statement_list' %}" class="nav-link {% if request.resolver_match.url_name == 'fee_statement_list' %}active{% endif %}">
+                    <i class="fa-solid fa-money-bill-wave"></i> Fees
+                </a>
+                {% elif user.is_authenticated %}
+                <a href="{% url 'teacher_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">
+                    <i class="fa-solid fa-chalkboard-user"></i> Teacher Portal
+                </a>
+                <a href="{% url 'student_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+                    <i class="fa-solid fa-user-graduate"></i> Student Portal
+                </a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" style="margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="width:100%; border:none; background:none; text-align:left; font: inherit; padding:14px; cursor:pointer;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="nav-link">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                </a>
+                {% endif %}
+            </nav>
+        </aside>
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

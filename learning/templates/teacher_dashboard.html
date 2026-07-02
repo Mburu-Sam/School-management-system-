@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="panel table-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px;">
+        <div>
+            <h2>Welcome, {{ teacher.name }}</h2>
+            <p>Subject: {{ teacher.subject }}</p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="{% url 'teacher_profile_update' %}" class="btn btn-primary">Update Profile</a>
+            <a href="{% url 'teacher_subject_create' %}" class="btn btn-secondary">Add Subject</a>
+            <a href="{% url 'teacher_class_create' %}" class="btn btn-secondary">Add Class</a>
+            <a href="{% url 'teacher_attendance_create' %}" class="btn btn-secondary">Attendance</a>
+            <a href="{% url 'teacher_grade_create' %}" class="btn btn-secondary">Grades</a>
+            <a href="{% url 'teacher_assignment_create' %}" class="btn btn-secondary">Assignments</a>
+        </div>
+    </div>
+
+    <h3>Teaching Classes</h3>
+    <ul>
+        {% for class in classes %}
+        <li>{{ class.name }} - {{ class.subject|default:'No subject linked' }}</li>
+        {% empty %}
+        <li>No classes assigned.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Attendance Records</h3>
+    <ul>
+        {% for item in attendance %}
+        <li>{{ item.student }} - {{ item.class_obj }} - {{ item.date }} - {% if item.present %}Present{% else %}Absent{% endif %}</li>
+        {% empty %}
+        <li>No attendance records yet.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Assignments</h3>
+    <ul>
+        {% for assignment in assignments %}
+        <li>{{ assignment.title }} ({{ assignment.class_obj }}) - Due: {{ assignment.due_date }}{% if assignment.file %} - <a href="{{ assignment.file.url }}">Download</a>{% endif %}</li>
+        {% empty %}
+        <li>No assignments created.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Student Grades</h3>
+    <div class="table-wrap" style="margin-top: 18px;">
+        <table>
+            <thead>
+                <tr><th>Student</th><th>Class</th><th>Grade</th></tr>
+            </thead>
+            <tbody>
+                {% for grade in grades %}
+                <tr><td>{{ grade.student }}</td><td>{{ grade.class_obj }}</td><td>{{ grade.grade }}</td></tr>
+                {% empty %}
+                <tr><td colspan="3">No grades recorded yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
